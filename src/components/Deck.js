@@ -38,7 +38,6 @@ function Deck() {
     if (confirmDelete) {
       try {
         await deleteCard(cardId);
-        // Reload the deck to update the cards list after deletion
         const updatedDeck = await readDeck(deckId);
         setDeck(updatedDeck);
       } catch (error) {

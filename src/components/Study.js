@@ -9,7 +9,6 @@ function Study() {
   const [cards, setCards] = useState([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [showRestartPrompt, setShowRestartPrompt] = useState(false);
   const [showNextButton, setShowNextButton] = useState(false);
 
   useEffect(() => {
@@ -36,15 +35,18 @@ function Study() {
       setIsFlipped(false);
       setShowNextButton(false);
     } else {
-      setShowRestartPrompt(true);
-      setShowNextButton(false);
+      const restart = window.confirm("Restart cards?");
+      if (restart) {
+        handleRestartDeck();
+      } else {
+        history.push("/");
+      }
     }
   };
 
   const handleRestartDeck = () => {
     setCurrentCardIndex(0);
     setIsFlipped(false);
-    setShowRestartPrompt(false);
     setShowNextButton(false);
   };
 
@@ -73,18 +75,6 @@ function Study() {
               Next
             </button>
           )}
-        </div>
-      );
-    } else if (showRestartPrompt) {
-      return (
-        <div>
-          <p>Restart the deck?</p>
-          <button className="btn btn-primary" onClick={handleRestartDeck}>
-            Restart
-          </button>
-          <button className="btn btn-secondary" onClick={() => history.push("/")}>
-            Home
-          </button>
         </div>
       );
     }
